@@ -72,7 +72,6 @@ for catName in CATS_NAME:
                 imgdraw.text(center[:2], str(center[:2]), fill='red')
                 imgdraw.text(bbox[:2], str(bbox[:2]), fill='blue')
 
-                print("================")
             img_file.show()
         else:
             continue
