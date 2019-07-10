@@ -95,11 +95,6 @@ class CocoDataSet(Dataset):
                     corrd_cls = np.array([
                         iou, cx_offset, cy_offset, np.log(p_w), np.log(p_h), *one_hot(cls_num=CLASS_NUM, v=int(cls_v))
                     ])
-                    # print("corrd_cls shape: ", corrd_cls.shape)
-
-                    # corrd_cls = np.array([
-                    #     iou, cx_offset, cy_offset, np.log(p_w), np.log(p_h), cls_v
-                    # ])
 
                     # 标签形状 H W C，其中C包括置信度、中心点、宽、高、类别
                     labels[feature_size][int(cy_index), int(cx_index), i] = corrd_cls
