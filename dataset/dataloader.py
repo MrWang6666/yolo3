@@ -44,7 +44,14 @@ class CocoDataSet(Dataset):
         # 第一位是文件名
         file_name = strs_list[0]
         img_data = Image.open(os.path.join(COCO_ANN_IMG, file_name))
+
+        # 判断是否为单通道的灰度图，如是，需要转成RGB
+        if img_data.getbands()[0] == 'L':
+            print("gray to RGB, fine name: ", file_name)
+            img_data = img_data.convert('RGB')
+
         img_date_tensor = transform(img_data)
+
         _boxes = np.array([float(x) for x in strs_list[1:]])
         # 每5个数据为一组，分别代表，类别、bbox(4)
         boxes = np.split(_boxes, len(_boxes) // 5)
@@ -90,6 +97,10 @@ class CocoDataSet(Dataset):
                     ])
                     # print("corrd_cls shape: ", corrd_cls.shape)
 
+                    # corrd_cls = np.array([
+                    #     iou, cx_offset, cy_offset, np.log(p_w), np.log(p_h), cls_v
+                    # ])
+
                     # 标签形状 H W C，其中C包括置信度、中心点、宽、高、类别
                     labels[feature_size][int(cy_index), int(cx_index), i] = corrd_cls
 
@@ -107,4 +118,5 @@ if __name__ == "__main__":
 
     for i, (labels_13, labels_26, labels_52, img_data) in  enumerate(dataloader):
 
-        print(img_data)
+        print(i)
+
